@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Aluno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .profile {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .matriculas {
+            margin-top: 30px;
+        }
+        .matricula-item {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>👤 Perfil do Aluno</h1>
+    
+    {% if aluno %}
+    <div class="profile">
+        <h2>{{ aluno.user.get_full_name }}</h2>
+        <p><strong>Usuário:</strong> {{ aluno.user.username }}</p>
+        <p><strong>CPF:</strong> {{ aluno.cpf }}</p>
+        <p><strong>Telefone:</strong> {{ aluno.telefone }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ aluno.data_nascimento|date:"d/m/Y" }}</p>
+    </div>
+    
+    <div class="matriculas">
+        <h2>📋 Matrículas</h2>
+        {% if matriculas %}
+            {% for matricula in matriculas %}
+            <div class="matricula-item">
+                <h3>{{ matricula.curso.nome }}</h3>
+                <p>Status: {{ matricula.get_status_display }}</p>
+                <p>Data: {{ matricula.data_matricula|date:"d/m/Y H:i" }}</p>
+                {% if matricula.nota_final %}
+                <p>Nota: {{ matricula.nota_final }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma matrícula encontrada.</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="alert">
+        <h2>⚠️ Perfil não encontrado</h2>
+        <p>Este usuário não tem um perfil de aluno cadastrado.</p>
+        <p>Contate o administrador ou crie um perfil no painel admin.</p>
+    </div>
+    {% endif %}
+    
+    <p><a href="/">← Voltar para Home</a></p>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Cursos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .welcome-banner {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .courses-section, .quick-actions {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .courses-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .course-item {
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-info h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #4a6ee0;
+            color: white;
+            border-color: #4a6ee0;
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-info {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-logout:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>📊 Dashboard do Sistema</h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="/">🏠 Home</a>
+                    <a href="/cursos/">📖 Cursos</a>
+                    <a href="/perfil/">👤 Meu Perfil</a>
+                    <form action="/logout/" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout">🚪 Sair</button>
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Banner de Boas-vindas -->
+        <div class="welcome-banner">
+            <h2>👋 Olá, {{ user.get_full_name|default:user.username }}!</h2>
+            <p>Bem-vindo ao painel de controle do Sistema de Gestão de Cursos.</p>
+            
+            <div class="user-info">
+                <p><strong>Usuário:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email|default:"Não informado" }}</p>
+                <p><strong>Último login:</strong> {{ user.last_login|date:"d/m/Y H:i"|default:"Primeiro acesso" }}</p>
+            </div>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value">{{ total_cursos }}</div>
+                <div class="stat-label">Cursos Ativos</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">{{ total_alunos }}</div>
+                <div class="stat-label">Alunos Cadastrados</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-value">{{ total_matriculas }}</div>
+                <div class="stat-label">Matrículas Ativas</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value">{{ ultimos_cursos|length }}</div>
+                <div class="stat-label">Cursos Recentes</div>
+            </div>
+        </div>
+
+        <!-- Últimos Cursos -->
+        <div class="courses-section">
+            <h2>🎓 Últimos Cursos Adicionados</h2>
+            <div class="courses-list">
+                {% for curso in ultimos_cursos %}
+                <div class="course-item">
+                    <div class="course-info">
+                        <h4>{{ curso.nome }}</h4>
+                        <p>Início: {{ curso.data_inicio|date:"d/m/Y" }} | Carga: {{ curso.carga_horaria }}h</p>
+                    </div>
+                    <span class="course-status {% if curso.ativo %}status-active{% else %}status-inactive{% endif %}">
+                        {% if curso.ativo %}Ativo{% else %}Inativo{% endif %}
+                    </span>
+                </div>
+                {% empty %}
+                <p>Nenhum curso cadastrado.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="quick-actions">
+            <h2>⚡ Ações Rápidas</h2>
+            <div class="actions-grid">
+                <a href="/cursos/" class="action-btn">
+                    <span class="action-icon">📖</span>
+                    <span>Ver Todos os Cursos</span>
+                </a>
+                
+                <a href="/perfil/" class="action-btn">
+                    <span class="action-icon">👤</span>
+                    <span>Meu Perfil</span>
+                </a>
+                
+                <a href="/admin/" class="action-btn">
+                    <span class="action-icon">🔧</span>
+                    <span>Painel Admin</span>
+                </a>
+                
+                <a href="/admin/cursos/curso/add/" class="action-btn">
+                    <span class="action-icon">➕</span>
+                    <span>Novo Curso</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Sistema de Gestão de Cursos © 2024</p>
+            <p>Dashboard - Usuário: {{ user.username }} | Acesso em: {% now "d/m/Y H:i" %}</p>
+        </div>
+    </footer>
+</body>
+</html>

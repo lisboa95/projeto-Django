@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ curso.nome }} - Detalhes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .course-detail {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .course-header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+        
+        .course-title {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4a6ee0;
+        }
+        
+        .info-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #4a6ee0;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            background: #3a5ed0;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .description {
+            line-height: 1.8;
+            color: #555;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .actions {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #4a6ee0;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>📚 Detalhes do Curso</h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="/">🏠 Início</a>
+                    <a href="/cursos/">📖 Cursos</a>
+                    <a href="/dashboard/">📊 Dashboard</a>
+                    <a href="/perfil/">👤 Perfil</a>
+                    <a href="/login/">🔐 Login</a>
+                    <a href="/admin/">🔧 Admin</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <a href="/cursos/" class="back-link">← Voltar para lista de cursos</a>
+            
+            <div class="course-detail">
+                <div class="course-header">
+                    <h1 class="course-title">{{ curso.nome }}</h1>
+                    <span class="course-status {% if curso.ativo %}status-active{% else %}status-inactive{% endif %}">
+                        {% if curso.ativo %}✅ Disponível{% else %}❌ Indisponível{% endif %}
+                    </span>
+                </div>
+                
+                <div class="description">
+                    <h3>📝 Descrição do Curso</h3>
+                    <p>{{ curso.descricao }}</p>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>⏱️ Carga Horária</h3>
+                        <p>{{ curso.carga_horaria }} horas</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>📅 Data de Início</h3>
+                        <p>{{ curso.data_inicio|date:"d/m/Y" }}</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>📅 Data de Término</h3>
+                        <p>{{ curso.data_termino|date:"d/m/Y" }}</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>📊 Status</h3>
+                        <p>{% if curso.ativo %}Ativo{% else %}Inativo{% endif %}</p>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <a href="/admin/cursos/curso/{{ curso.id }}/change/" class="btn">
+                        ✏️ Editar Curso (Admin)
+                    </a>
+                    <a href="/cursos/" class="btn btn-secondary">
+                        ← Voltar para Cursos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Sistema de Gestão de Cursos © 2024</p>
+            <p>ID do Curso: {{ curso.id }}</p>
+        </div>
+    </footer>
+</body>
+</html>
